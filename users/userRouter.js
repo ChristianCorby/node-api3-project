@@ -8,8 +8,11 @@ router.use(express.json())
 router.post('/', (req, res) => {
   // do your magic!
   DBmethods.insert(req.body)
-  .then(res => {
-    res.status(201).json({res})
+  .then(resp => {
+    res.status(201).json({resp})
+  })
+  .catch(err => {
+    res.status(400).json({message:"MIA"})
   })
 });
 
@@ -27,6 +30,7 @@ router.post('/:id/posts', validateUser, (req, res) => {
 });
 
 router.get('/', (req, res) => {
+  console.log("hello")
   // do your magic!
   DBmethods.get()
     .then(resp => {
@@ -62,7 +66,7 @@ router.get('/:id/posts',validateUserId, (req, res) => {
 router.delete('/:id',validateUserId, (req, res) => {
   // do your magic!
   console.log(req.body)
-  DBmethods2.update(req.params.id, req.body)
+  DBmethods2.remove(req.params.id, req.body)
   .then(resp => {
     console.log(req.body)
     res.status(200).json({resp})
@@ -74,6 +78,15 @@ router.delete('/:id',validateUserId, (req, res) => {
 
 router.put('/:id', (req, res) => {
   // do your magic!
+  DBmethods.update(req.params.id, req.body)
+  .then(resp => {
+    console.log(req.body)
+    res.status(200).json({resp});
+  })
+  .catch((error) => {
+    console.log(error);
+    res.status(500).json({ error: "UPDATE MIA" });
+  });
 });
 
 //custom middleware

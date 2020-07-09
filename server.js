@@ -1,11 +1,10 @@
 const express = require('express');
 
-const userRouter = require('morgan')
+const userRouter = require('./users/userRouter')
 const server = express();
-const morgan = require('morgan')
 
 server.use(logger)
-server.use('/users', userRouter)
+server.use('/api/users', userRouter)
 server.get('/', (req, res) => {
   res.send(`<h2>Let's write some middleware!</h2>`);
 });
